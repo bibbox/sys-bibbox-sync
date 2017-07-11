@@ -1,0 +1,20 @@
+version: '2'
+services:
+
+    sys-bibbox-sync:
+        build: 
+            context: ./images/python-script
+        container_name: sys-bibbox-sync
+        environment:
+            CENTRAL_BIBBOX_URL: 'http://elastic-el.demo.bibbox.org/'
+        command: /opt/scripts/entrypoint.sh
+        depends_on:
+            - sys-bibbox-sync-data
+        volumes_from: 
+            - sys-bibbox-sync-data
+   
+    sys-bibbox-sync-data:
+        image: busybox
+        container_name: sys-bibbox-sync-data
+        volumes:
+            - ./sync-data:/sync-data
