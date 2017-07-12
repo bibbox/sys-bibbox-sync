@@ -1,2 +1,2 @@
 #!/bin/bash
-python /opt/sysscripts/BIBBOXSync.py
+python /opt/synccripts/BIBBOXSync.py
