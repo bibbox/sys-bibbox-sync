@@ -17,4 +17,4 @@ services:
         image: busybox
         container_name: sys-bibbox-sync-data
         volumes:
-            - /opt/bibbox/sys-bibbox-sync/data:/opt/bibbox/sys-bibbox-sync/data
+            - "/opt/bibbox/sys-bibbox-sync/data:/opt/bibbox/sys-bibbox-sync/data"

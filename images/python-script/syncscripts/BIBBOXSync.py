@@ -13,7 +13,7 @@ import os
 #http://brunorocha.org/python/watching-a-directory-for-file-changes-with-python.html
 
 q = queue.Queue(maxsize=0)
-path = "\opt\bibbox\sys-bibbox-sync\data"
+path = "/opt/bibbox/sys-bibbox-sync/data"
 
 class BIBBOXFileHandler(FileSystemEventHandler):
     #on_modified
