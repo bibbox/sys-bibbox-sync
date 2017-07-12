@@ -3,8 +3,8 @@ FROM python:3.6
 RUN pip install --upgrade pip \\
 	& pip install watchdog requests
 
-ADD sysscripts /opt/sysscripts
-WORKDIR /opt/sysscripts
+ADD syncscripts /opt/synccripts
+WORKDIR /opt/syncscripts
 RUN chmod a+x *.py
 
 
