@@ -5,7 +5,7 @@
 from datetime import datetime
 import json
 import requests
-from elasticsearch import Elasticsearch
+#from elasticsearch import Elasticsearch
 #from elasticsearch_xpack import XPackClient
 
 class SyncFile:
