@@ -4,7 +4,7 @@ RUN pip install --upgrade pip \\
 	& pip install watchdog requests
 
 ADD syncscripts /opt/synccripts
-WORKDIR /opt/syncscripts
+WORKDIR /opt/synccripts
 RUN chmod a+x *.py
 
 
