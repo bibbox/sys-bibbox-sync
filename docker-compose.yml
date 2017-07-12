@@ -7,7 +7,7 @@ services:
         container_name: sys-bibbox-sync
         environment:
             CENTRAL_BIBBOX_URL: 'http://elastic-el.demo.bibbox.org/'
-        command:/opt/scripts/entrypoint.sh
+        command: /opt/scripts/entrypoint.sh
         depends_on:
             - sys-bibbox-sync-data
         volumes_from: 
