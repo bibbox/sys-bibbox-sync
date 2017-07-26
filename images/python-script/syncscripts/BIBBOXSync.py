@@ -61,10 +61,7 @@ def get_filepaths(path):
     return file_paths
 
 if __name__ == "__main__":
-
-    elasticBaseURL = os.environ['DEBUSSY']
-    print("Test: " + elasticBaseURL)
-    logger.info("Test: " + elasticBaseURL)
+    logger.info("Startign BIBBOX Sync Script")
     
     num_threads = 1
 
