@@ -49,7 +49,7 @@ def get_filepaths(path):
 if __name__ == "__main__":
 
     elasticBaseURL = os.environ['DEBUSSY']
-    print(elasticBaseURL)
+    print("Test: " + elasticBaseURL)
     
     num_threads = 1
 
