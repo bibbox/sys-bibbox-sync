@@ -6,8 +6,7 @@ services:
             context: ./images/python-script
         container_name: sys-bibbox-sync
         environment:
-            CENTRAL_BIBBOX_URL: 'http://elastic-el.demo.bibbox.org/'
-            DEBUSSY: 'DEBUSSY_Test'
+            ELASTIC_BASE_URL: 'http://elastic-el.demo.bibbox.org/'
         command: /opt/scripts/entrypoint.sh
         depends_on:
             - sys-bibbox-sync-data
