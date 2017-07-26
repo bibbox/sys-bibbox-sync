@@ -15,6 +15,20 @@ import os
 q = queue.Queue(maxsize=0)
 path = "/opt/bibbox/sys-bibbox-sync/data"
 
+logger = logging.getLogger("bibbox-sync")
+logger.setLevel(logging.DEBUG)
+
+# create a file handler
+handler = logging.FileHandler('/opt/log/bibbox-sync.log')
+handler.setLevel(logging.DEBUG)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
+
 class BIBBOXFileHandler(FileSystemEventHandler):
     #on_modified
     #on_created
@@ -50,6 +64,7 @@ if __name__ == "__main__":
 
     elasticBaseURL = os.environ['DEBUSSY']
     print("Test: " + elasticBaseURL)
+    logger.info("Test: " + elasticBaseURL)
     
     num_threads = 1
 
