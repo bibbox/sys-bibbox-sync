@@ -48,6 +48,9 @@ def get_filepaths(path):
 
 if __name__ == "__main__":
 
+    elasticBaseURL = os.environ['DEBUSSY']
+    print(elasticBaseURL)
+    
     num_threads = 1
 
     for i in range(num_threads):
