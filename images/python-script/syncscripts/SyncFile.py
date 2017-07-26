@@ -10,10 +10,26 @@ import requests
 
 class SyncFile:
     def __init__(self, event_type, is_directory, src_path):
+        
+        self.logger = logging.getLogger("bibbox-sync")
+        self.logger.setLevel(logging.DEBUG)
+
+        # create a file handler
+        handler = logging.FileHandler('/opt/log/bibbox-sync.log')
+        handler.setLevel(logging.DEBUG)
+
+        # create a logging format
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+
+        # add the handlers to the logger
+        self.logger.addHandler(handler)
+        
         self.event_type = event_type
         self.is_directory = is_directory
         self.src_path = src_path
-        self.elasticBaseURL = "http://elastic-el.demo.bibbox.org/"
+        self.elasticBaseURL = os.environ['ELASTIC_BASE_URL']
+        self.logger.info('elasticBaseURL: ' + self.elasticBaseURL)
         self.headersEL = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
     def UpdateIndex(self):
