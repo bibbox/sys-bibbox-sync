@@ -19,3 +19,4 @@ services:
         container_name: sys-bibbox-sync-data
         volumes:
             - "/opt/bibbox/sys-bibbox-sync/data:/opt/bibbox/sys-bibbox-sync/data"
+            - "./bibbox-sync.log:/opt/log/bibbox-sync.log"
