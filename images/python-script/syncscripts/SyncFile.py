@@ -5,6 +5,7 @@
 from datetime import datetime
 import json
 import requests
+import logging
 #from elasticsearch import Elasticsearch
 #from elasticsearch_xpack import XPackClient
 
