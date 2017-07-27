@@ -30,8 +30,8 @@ class SyncFile:
         self.src_path = src_path
         self.elasticBaseURL = os.environ['ELASTIC_BASE_URL']
         self.logger.info('elasticBaseURL: ' + self.elasticBaseURL)
-        self.headersEL = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-
+        self.headersEL = {'Content-type': 'application/json', 'Accept': 'text/plain'}    
+        
     def UpdateIndex(self):
         print(self.event_type + ' - ' + self.src_path)
 
@@ -55,21 +55,32 @@ class SyncFile:
         # IF Successfule updatet remove from queue
         return False
 
+    def checkPrivacy(self, data):
+        privacy = json.load(data["privacy"])
+        if privacy["share"] == 'yes':
+            return True
+        else:
+            return False    
+    
     def modifiIndex(self):
         with open(self.src_path) as data_file:
             self.data = json.load(data_file)
-        re = requests.put(
-            self.elasticBaseURL + self.getIdentifier(),
-            data=json.dumps(self.data["_source"]), headers=self.headersEL)
-        print("mod" + re.text)
-        return self.getInstructioncode(re.status_code)
+        if self.checkPrivacy(self.data):
+            re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
+            print("mod" + re.text)
+            return self.getInstructioncode(re.status_code)
+        else:
+            return self.deleteIndex()
 
     def creatIndex(self):
         with open(self.src_path) as data_file:
             self.data = json.load(data_file)
-        re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data["_source"]), headers=self.headersEL)
-        print(re.text)
-        return self.getInstructioncode(re.status_code)
+        if self.checkPrivacy(self.data):
+            re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data["_source"]), headers=self.headersEL)
+            print(re.text)
+            return self.getInstructioncode(re.status_code)
+        else:
+            return self.deleteIndex()
 
     def moveIndex(self):
         return self.modifiIndex()
