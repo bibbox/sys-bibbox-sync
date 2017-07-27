@@ -37,6 +37,7 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 
     def on_any_event(self, event):
         print("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
+        self.logger.info("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
         file = SyncFile(event.event_type, event.is_directory, event.src_path)
         q.put(file)
 
@@ -45,9 +46,11 @@ def do_stuff(q):
     file = q.get()
     if(file.UpdateIndex()):
         q.task_done()
+        self.logger.info("File Updated")
         print("File Updated")
     else:
         print("ERROR")
+        self.logger.info("ERROR")
         time.sleep(30)
 
 def get_filepaths(path):
