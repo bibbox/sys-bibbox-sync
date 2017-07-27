@@ -36,7 +36,7 @@ class SyncFile:
         
     def UpdateIndex(self):
         print(self.event_type + ' - ' + self.src_path)
-        self.logger.info(self.event_type + ' - ' + self.src_path)
+        self.logger.info("UpdateIndex: " + self.event_type + ' - ' + self.src_path)
 
         if self.is_directory == False:
             if(self.event_type == 'modified'):
@@ -48,21 +48,17 @@ class SyncFile:
             if (self.event_type == 'deleted'):
                 return self.deleteIndex()
 
-        sampleDescription='{"author": "kimchy","text": "a12344"}'
-
-        #print(self.data)
-
-        #print(re.status_code)
-        #print(re.text)
-
-        # IF Successfule updatet remove from queue
         return False
 
     def checkPrivacy(self, data):
+        self.logger.info("data" + data)
         privacy = json.load(data["privacy"])
+        self.logger.info("privacy" + privacy)
         if privacy["share"] == 'yes':
+            self.logger.info("share" + "TRUE")
             return True
         else:
+            self.logger.info("share" + "FALSE")
             return False    
     
     def modifiIndex(self):
