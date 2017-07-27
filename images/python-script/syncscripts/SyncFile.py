@@ -34,6 +34,7 @@ class SyncFile:
         
     def UpdateIndex(self):
         print(self.event_type + ' - ' + self.src_path)
+        self.logger.info(self.event_type + ' - ' + self.src_path)
 
         if self.is_directory == False:
             if(self.event_type == 'modified'):
@@ -68,6 +69,7 @@ class SyncFile:
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
             print("mod" + re.text)
+            self.logger.info("mod" + re.text)
             return self.getInstructioncode(re.status_code)
         else:
             return self.deleteIndex()
@@ -78,6 +80,7 @@ class SyncFile:
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data["_source"]), headers=self.headersEL)
             print(re.text)
+            self.logger.info("mod" + re.text)
             return self.getInstructioncode(re.status_code)
         else:
             return self.deleteIndex()
@@ -88,6 +91,7 @@ class SyncFile:
     def deleteIndex(self):
         re = requests.delete(self.elasticBaseURL + self.getIdentifier())
         print(re.text)
+        self.logger.info("mod" + re.text)
         return self.getInstructioncode(re.status_code)
 
     def getIdentifier(self):
