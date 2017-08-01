@@ -36,8 +36,21 @@ class BIBBOXFileHandler(FileSystemEventHandler):
     #on_deleted
 
     def on_any_event(self, event):
+        logger_sync = logging.getLogger("bibbox-sync")
+        logger_sync.setLevel(logging.DEBUG)
+
+        # create a file handler
+        handler_sync = logging.FileHandler('/opt/log/bibbox-sync.log')
+        handler_sync.setLevel(logging.DEBUG)
+
+        # create a logging format
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler_sync.setFormatter(formatter)
+
+        # add the handlers to the logger
+        logger_sync.addHandler(handler_sync)
         print("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
-        self.logger.info("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
+        logger_sync.info("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
         file = SyncFile(event.event_type, event.is_directory, event.src_path)
         q.put(file)
 
