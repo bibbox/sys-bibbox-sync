@@ -64,6 +64,7 @@ class SyncFile:
     def modifiIndex(self):
         self.logger.info("SyncFile::modifiIndex")
         with open(self.src_path) as data_file:
+            self.logger.info("data_file: " + data_file)
             self.data = json.load(data_file)
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
