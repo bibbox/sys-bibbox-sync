@@ -51,7 +51,6 @@ class SyncFile:
         return False
 
     def checkPrivacy(self, data):
-        self.logger.info("data" + data)
         privacy = json.load(data["privacy"])
         self.logger.info("privacy" + privacy)
         if privacy["share"] == 'yes':
@@ -78,7 +77,6 @@ class SyncFile:
         self.logger.info("SyncFile::creatIndex")
         with open(self.src_path) as data_file:
             self.data = json.load(data_file)
-        self.logger.info("data" + self.data)
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data["_source"]), headers=self.headersEL)
             print(re.text)
