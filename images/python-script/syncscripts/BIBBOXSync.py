@@ -13,19 +13,15 @@ import os
 #http://brunorocha.org/python/watching-a-directory-for-file-changes-with-python.html
 
 q = queue.Queue(maxsize=0)
-path = "/opt/bibbox/sys-bibbox-sync/data"
 
 logger = logging.getLogger("bibbox-sync")
 logger.setLevel(logging.DEBUG)
-
 # create a file handler
 handler = logging.FileHandler('/opt/log/bibbox-sync.log')
 handler.setLevel(logging.DEBUG)
-
 # create a logging format
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
-
 # add the handlers to the logger
 logger.addHandler(handler)
 
@@ -38,19 +34,16 @@ class BIBBOXFileHandler(FileSystemEventHandler):
     def on_any_event(self, event):
         logger_sync = logging.getLogger("bibbox-sync")
         logger_sync.setLevel(logging.DEBUG)
-
         # create a file handler
         handler_sync = logging.FileHandler('/opt/log/bibbox-sync.log')
         handler_sync.setLevel(logging.DEBUG)
-
         # create a logging format
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler_sync.setFormatter(formatter)
-
         # add the handlers to the logger
         logger_sync.addHandler(handler_sync)
         print("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
-        logger_sync.info("EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
+        logger_sync.info("BIBBOXFileHandler EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
         file = SyncFile(event.event_type, event.is_directory, event.src_path)
         q.put(file)
 
@@ -77,29 +70,31 @@ def get_filepaths(path):
     return file_paths
 
 if __name__ == "__main__":
-    logger.info("Startign BIBBOX Sync Script")
+    logger.info("-------------------------------")
+    logger.info("- Startign BIBBOX Sync Script -")
+    logger.info("-     " + str(time.strftime("%d-%m.%Y %I:%M:%S")) + "     -")
+    logger.info("-------------------------------")
+    logger.info()
     
+    logger.info("Starting Thread: do_stuff")
     num_threads = 1
-
+    q.join()
     for i in range(num_threads):
         worker = Thread(target=do_stuff, args=(q,))
         worker.setDaemon(True)
         worker.start()
 
-    q.join()
-
+    path = os.environ['SYNC_PATH']
+    logger.info("Read existing Files from path: " + path)
     #TODO Delete index if files not existing eny more
     onlyfiles = get_filepaths(path)
     for file in onlyfiles:
+        logger.info("INIT Sync for file: " + file)
         file = SyncFile("created", False, file)
         q.put(file)
 
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
-
+    logger.info("Start Event Handler Listener for path: " + path)
     event_handler = BIBBOXFileHandler()
-    #event_handler = LoggingEventHandler()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
