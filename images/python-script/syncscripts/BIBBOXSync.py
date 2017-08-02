@@ -74,7 +74,7 @@ if __name__ == "__main__":
     logger.info("- Startign BIBBOX Sync Script -")
     logger.info("-     " + str(time.strftime("%d-%m.%Y %I:%M:%S")) + "     -")
     logger.info("-------------------------------")
-    logger.info()
+    logger.info("")
     
     logger.info("Starting Thread: do_stuff")
     num_threads = 1
