@@ -51,7 +51,7 @@ class SyncFile:
         return False
 
     def checkPrivacy(self, data):
-        privacy = json.load(data["privacy"])
+        privacy = data["privacy"]
         if privacy["share"] == 'yes':
             self.logger.info("share" + "TRUE")
             return True
