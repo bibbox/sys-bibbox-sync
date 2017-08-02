@@ -62,6 +62,7 @@ class SyncFile:
             return False    
     
     def modifiIndex(self):
+        self.logger.info("SyncFile::modifiIndex")
         with open(self.src_path) as data_file:
             self.data = json.load(data_file)
         if self.checkPrivacy(self.data):
@@ -73,7 +74,7 @@ class SyncFile:
             return self.deleteIndex()
 
     def creatIndex(self):
-        self.logger.info("creatIndex")
+        self.logger.info("SyncFile::creatIndex")
         with open(self.src_path) as data_file:
             self.data = json.load(data_file)
         self.logger.info("data" + self.data)
@@ -89,12 +90,14 @@ class SyncFile:
         return self.modifiIndex()
 
     def deleteIndex(self):
+        self.logger.info("SyncFile::deleteIndex")
         re = requests.delete(self.elasticBaseURL + self.getIdentifier())
         print(re.text)
         self.logger.info("mod" + re.text)
         return self.getInstructioncode(re.status_code)
 
     def getIdentifier(self):
+        self.logger.info("SyncFile::getIdentifier")
         elemets = self.src_path.split("\\")
         counter = 3
         id = ''
@@ -105,6 +108,7 @@ class SyncFile:
         return id.replace(".json/", "")
 
     def getInstructioncode(self, code):
+        self.logger.info("SyncFile::getInstructioncode" + str(code))
         print(code)
         self.logger.info("code: " + code)
         if code == 200 or code == 201 or code == 202 or code == 203 or code == 204:
