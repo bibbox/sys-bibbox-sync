@@ -52,11 +52,11 @@ def do_stuff(q):
     file = q.get()
     if(file.UpdateIndex()):
         q.task_done()
-        self.logger.info("File Updated")
+        logger.info("File Updated")
         print("File Updated")
     else:
         print("ERROR")
-        self.logger.info("ERROR")
+        logger.info("ERROR")
         time.sleep(30)
 
 def get_filepaths(path):
