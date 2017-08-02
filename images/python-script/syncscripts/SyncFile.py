@@ -25,7 +25,7 @@ class SyncFile:
         self.logger.addHandler(handler)
         
         self.logger.info("--------------------------------")
-        self.logger.info("SyncFile")
+        self.logger.info("SyncFile: event_type: " + event_type + ", is_directory: " + str(is_directory) + ", src_path: " + src_path )
         
         self.event_type = event_type
         self.is_directory = is_directory
