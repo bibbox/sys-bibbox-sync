@@ -95,7 +95,7 @@ class SyncFile:
 
     def getIdentifier(self):
         self.logger.info("SyncFile::getIdentifier")
-        elemets = self.src_path.split("\\")
+        elemets = self.src_path.split("/")
         counter = 3
         id = ''
         for element in reversed(elemets):
