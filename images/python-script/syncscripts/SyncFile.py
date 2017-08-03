@@ -107,7 +107,7 @@ class SyncFile:
     def getInstructioncode(self, code):
         self.logger.info("SyncFile::getInstructioncode" + str(code))
         print(code)
-        self.logger.info("code: " + code)
+        self.logger.info("code: " + str(code))
         if code == 200 or code == 201 or code == 202 or code == 203 or code == 204:
             return True
         return False
