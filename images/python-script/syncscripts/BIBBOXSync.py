@@ -33,10 +33,10 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 
     def on_any_event(self, event):
         logger_sync = logging.getLogger("bibbox-sync")
-        logger_sync.setLevel(logging.DEBUG)
+        logger_sync.setLevel(logging.ERROR)
         # create a file handler
         handler_sync = logging.FileHandler('/opt/log/bibbox-sync.log')
-        handler_sync.setLevel(logging.DEBUG)
+        handler_sync.setLevel(logging.ERROR)
         # create a logging format
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler_sync.setFormatter(formatter)
