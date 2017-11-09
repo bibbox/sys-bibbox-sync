@@ -14,10 +14,10 @@ class SyncFile:
     def __init__(self, event_type, is_directory, src_path):
         
         self.logger = logging.getLogger("bibbox-sync")
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.ERROR)
         # create a file handler
         handler = logging.FileHandler('/opt/log/bibbox-sync.log')
-        handler.setLevel(logging.DEBUG)
+        handler.setLevel(logging.ERROR)
         # create a logging format
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
