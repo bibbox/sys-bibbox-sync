@@ -49,6 +49,7 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 
 def do_stuff(q):
   while True:
+    logger.info("XXX")
     file = q.get()
     if(file.UpdateIndex()):
         q.task_done()
@@ -90,8 +91,8 @@ if __name__ == "__main__":
     onlyfiles = get_filepaths(path)
     for file in onlyfiles:
         logger.info("INIT Sync for file: " + file)
-        file = SyncFile("created", False, file)
-        q.put(file)
+        file_1 = SyncFile("created", False, file)
+        q.put(file_1)
 
     logger.info("Start Event Handler Listener for path: " + path)
     event_handler = BIBBOXFileHandler()
