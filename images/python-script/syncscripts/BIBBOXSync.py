@@ -52,7 +52,7 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 def threadWorker(q):
   while True:
     file = q.get()
-    if(file.isFolder):
+    if(file.isFolder()):
         q.task_done()
     else:
         if(file.updateIndex()):
