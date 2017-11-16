@@ -97,7 +97,7 @@ if __name__ == "__main__":
     for file in onlyfiles:
         logger.debug("INIT Sync for file: " + file)
         file_object = SyncFile("created", False, file)
-        if file_object.isFolder == False:
+        if file_object.isFolder() == False:
             logger.debug("Created Object: " + file_object.getFileInfo)
             q.put(file_object)
 
