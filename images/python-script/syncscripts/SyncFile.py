@@ -21,6 +21,9 @@ class SyncFile:
         self.logger.debug('SyncFile - elasticBaseURL: ' + self.elasticBaseURL)
         self.headersEL = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
+    def isFolder(self):
+        return self.is_directory
+
     def getFileInfo(self):
         file_info = "SyncFile: event_type: " + self.event_type + ", is_directory: " + str(self.is_directory) + ", src_path: " + self.src_path
         return file_info

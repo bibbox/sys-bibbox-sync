@@ -51,12 +51,15 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 def threadWorker(q):
   while True:
     file = q.get()
-    if(file.updateIndex()):
-        logger.info("File Updated: " + file.getFileInfo())
+    if(file.isFolder):
         q.task_done()
     else:
-        logger.error("ERROR updating file: " + file.getFileInfo())
-        time.sleep(30)
+        if(file.updateIndex()):
+            logger.info("File Updated: " + file.getFileInfo())
+            q.task_done()
+        else:
+            logger.error("ERROR updating file: " + file.getFileInfo())
+            time.sleep(30)
 
 ###################################
 # Helper fuction to get all files in a path
