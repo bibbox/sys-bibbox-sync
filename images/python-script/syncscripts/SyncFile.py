@@ -68,8 +68,9 @@ class SyncFile:
         self.logger.debug("SyncFile::creatIndex: " + self.src_path)
         try:
             with open(self.src_path) as data_file:
+                self.logger.debug("SyncFile::readJson: " + data_file)
                 self.data = json.load(data_file)
-        except EnvironmentError as e:  # parent of IOError, OSError *and* WindowsError where available
+        except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
             self.logger.error("Error handling file: " + str(e))
         self.logger.debug("Read file done")
