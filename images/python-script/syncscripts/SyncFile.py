@@ -73,7 +73,7 @@ class SyncFile:
     def creatIndex(self):
         self.logger.debug("SyncFile::creatIndex: " + self.src_path)
         try:
-            with open(self.src_path) as data_file:
+            with open(self.src_path, encoding='utf-8') as data_file:
                 self.logger.debug("SyncFile::readJson: " + data_file.read())
                 self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore'))
         except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
