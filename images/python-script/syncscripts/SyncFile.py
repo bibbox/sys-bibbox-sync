@@ -54,8 +54,14 @@ class SyncFile:
     
     def modifiIndex(self):
         self.logger.debug("SyncFile::modifiIndex")
-        with open(self.src_path) as data_file:
-            self.data = json.load(data_file)
+        try:
+            with open(self.src_path) as data_file:
+                self.logger.debug("SyncFile::readJson: " + data_file.read())
+                self.data = json.load(data_file)
+        except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
+            self.logger.error("Error handling file: " + self.src_path)
+            self.logger.error("Error handling file: " + str(e))
+        self.logger.debug("Read file done")
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
             self.logger.debug("mod" + re.text)
@@ -69,7 +75,7 @@ class SyncFile:
         try:
             with open(self.src_path) as data_file:
                 self.logger.debug("SyncFile::readJson: " + data_file.read())
-                self.data = json.loads(data_file.read())
+                self.data = json.loads(data_file.read().decode('utf-8').replace('\0', ''))
         except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
             self.logger.error("Error handling file: " + str(e))
