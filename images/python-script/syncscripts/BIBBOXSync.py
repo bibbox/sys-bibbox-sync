@@ -51,8 +51,9 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 # Thread Worker to update files in the Queue
 def threadWorker(q):
   while True:
+    logger.debug("threadWorker...")
     file = q.get()
-    if(file.isFolder()):
+    if file.isFolder():
         q.task_done()
     else:
         if(file.updateIndex()):
