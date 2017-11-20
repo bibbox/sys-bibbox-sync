@@ -75,7 +75,7 @@ class SyncFile:
         try:
             with open(self.src_path) as data_file:
                 self.logger.debug("SyncFile::readJson: " + data_file.read())
-                self.data = json.loads(data_file.read().decode('utf-8').replace('\0', ''))
+                self.data = json.loads(data_file.read().replace('\0', ''))
         except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
             self.logger.error("Error handling file: " + str(e))
