@@ -72,10 +72,11 @@ class SyncFile:
 
     def creatIndex(self):
         self.logger.debug("SyncFile::creatIndex: " + self.src_path)
-        a='{"configuration":{"hypervisor":"not specified","availability":"not specified","status":"not specified","network":"not specified"},"contact":{"foaf:firstName":"hhh"},"context":{"memory":4047736,"cpus":4,"machine_id":"dev.bibbox.org","storage":13661646848},"privacy":{"share":"yes"}}'
+        a='{  "privacy": {    "share": "yes"  },  "contact": {},  "configuration": {    "hypervisor": "not specified",    "status": "not specified",    "network": "not specified",    "availability": "not specified"  },  "context": {    "machine_id": "dev.bibbox.org",    "cpus": 4,    "memory": 40478736,    "storage": 13661741056  }}'
         try:
             with open(self.src_path, encoding='utf-8') as data_file:
                 self.logger.debug("SyncFile::readJson: " + data_file.read())
+                self.logger.debug("SyncFile::readJson: " + a)
                 self.data = json.loads(a)
                 self.logger.debug("S--------: " + data_file.read())
                 #self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore'))
