@@ -43,7 +43,7 @@ class BIBBOXFileHandler(FileSystemEventHandler):
 
     def on_any_event(self, event):
         if event.is_directory == False:
-            logger.info("BIBBOXFileHandler EVENT: " + event.event_type + " " + str(event.is_directory) + " " + event.src_path)
+            logger.info("BIBBOXFileHandler EVENT: " + event.event_type + " - " + str(event.is_directory) + " - " + event.src_path)
             file = SyncFile(event.event_type, event.is_directory, event.src_path)
             q.put(file)
 

@@ -42,7 +42,9 @@ class SyncFile:
         return False
 
     def checkPrivacy(self, data):
+        self.logger.debug("SyncFile::checkPrivacy")
         privacy = data["privacy"]
+        self.logger.debug("SyncFile::checkPrivacy" + privacy)
         if privacy["share"] == 'yes':
             self.logger.debug("share" + "TRUE")
             return True
@@ -59,6 +61,7 @@ class SyncFile:
             self.logger.debug("mod" + re.text)
             return self.getInstructioncode(re.status_code)
         else:
+            self.logger.debug("Sharing is disabled.")
             return self.deleteIndex()
 
     def creatIndex(self):
@@ -70,6 +73,7 @@ class SyncFile:
             self.logger.debug("mod" + re.text)
             return self.getInstructioncode(re.status_code)
         else:
+            self.logger.debug("Sharing is disabled.")
             return self.deleteIndex()
 
     def moveIndex(self):
@@ -79,6 +83,7 @@ class SyncFile:
         self.logger.debug("SyncFile::deleteIndex")
         re = requests.delete(self.elasticBaseURL + self.getIdentifier())
         self.logger.debug("mod" + re.text)
+        self.logger.debug("Sharing is disabled.")
         return self.getInstructioncode(re.status_code)
 
     def getIdentifier(self):
