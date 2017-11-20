@@ -65,7 +65,7 @@ class SyncFile:
             return self.deleteIndex()
 
     def creatIndex(self):
-        self.logger.debug("SyncFile::creatIndex")
+        self.logger.debug("SyncFile::creatIndex: " + self.src_path)
         try:
             with open(self.src_path) as data_file:
                 self.data = json.load(data_file)
