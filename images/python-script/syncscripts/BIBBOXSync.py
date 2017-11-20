@@ -99,7 +99,7 @@ if __name__ == "__main__":
         logger.debug("INIT Sync for file: " + file)
         file_object = SyncFile("created", False, file)
         if file_object.isFolder() == False:
-            logger.debug("Created Object: " + file_object.getFileInfo)
+            logger.debug("Created Object: " + file_object.getFileInfo())
             q.put(file_object)
 
     logger.info("Start Event Handler Listener for path: " + path)
