@@ -69,8 +69,9 @@ class SyncFile:
         try:
             with open(self.src_path) as data_file:
                 self.data = json.load(data_file)
-        except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+        except EnvironmentError as e:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
+            self.logger.error("Error handling file: " + str(e))
         self.logger.debug("Read file done")
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
