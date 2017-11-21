@@ -52,8 +52,16 @@ class SyncFile:
             with open(self.src_path, encoding='utf-8') as data_file:
                 self.logger.debug("SyncFile::createJsonObject: " + data_file.read())
                 self.logger.debug(list(bytes(data_file.read())))
-                self.logger.debug(list(bytes(b'{  "privacy": {    "share": "yes"  },  "contact": {},  "configuration": {    "hypervisor": "not specified",    "status": "not specified",    "network": "not specified",    "availability": "not specified"  },  "context": {    "machine_id": "dev.bibbox.org",    "cpus": 4,    "memory": 40478736,    "storage": 13661741056  }}')))
-                self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''), strict=False)
+                f = open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', 'w')
+                f.write(data_file.read())
+                f.close()
+                #self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''), strict=False)
+            with open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', encoding='utf-8') as data_file:
+                self.logger.debug("SyncFile::createJsonObject: " + data_file.read())
+                self.logger.debug(list(bytes(data_file.read())))
+                self.data = json.loads(
+                    data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''),
+                    strict=False)
         except Exception as ex:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
             self.logger.error("Error handling file: " + str(ex))
