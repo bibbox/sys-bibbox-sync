@@ -8,6 +8,7 @@ import queue
 from threading import Thread
 from SyncFile import SyncFile
 import os
+import traceback
 
 ###################################
 # DOCU:
@@ -69,6 +70,7 @@ def threadWorker(q):
     except Exception as ex:
         logger.error("Error handling threadWorker: " + file.getFileInfo())
         logger.error("Error handling threadWorker: " + str(ex))
+        logger.error(traceback.format_exception(None, ex, ex.__traceback__), file=sys.stderr, flush=True)
 
 ###################################
 # Helper fuction to get all files in a path
