@@ -47,12 +47,13 @@ class SyncFile:
         return False
 
     def createJsonObject(self):
-        self.logger.debug("SyncFile::createJsonObject: ")
+        self.logger.debug("SyncFile::createJsonObject")
         try:
             data_file = open(self.src_path, encoding='utf-8')
             datastrinmg = ""
             for line in data_file:
                 datastrinmg = datastrinmg + line
+            self.logger.debug("SyncFile::createJsonObject: " + datastrinmg)
             self.data = json.loads(datastrinmg.encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''),strict=False)
             data_file.close()
         except Exception as ex:  # parent of IOError, OSError *and* WindowsError where available
@@ -63,7 +64,7 @@ class SyncFile:
     def checkPrivacy(self, data):
         self.logger.debug("SyncFile::checkPrivacy")
         privacy = data["privacy"]
-        self.logger.debug("SyncFile::checkPrivacy" + privacy)
+        self.logger.debug("SyncFile::checkPrivacy" + privacy["share"])
         if privacy["share"] == 'yes':
             self.logger.debug("share" + "TRUE")
             return True
