@@ -51,7 +51,6 @@ class SyncFile:
         try:
             with open(self.src_path, encoding='utf-8') as data_file:
                 self.logger.debug("SyncFile::createJsonObject: " + data_file.read())
-                self.logger.debug(list(bytes(data_file.read())))
                 f = open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', 'w')
                 f.write(data_file.read())
                 f.close()
