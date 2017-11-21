@@ -49,20 +49,12 @@ class SyncFile:
     def createJsonObject(self):
         self.logger.debug("SyncFile::createJsonObject: ")
         try:
-            with open(self.src_path, encoding='utf-8') as data_file:
-                datastrinmg = data_file.read()
-                self.logger.debug("SyncFile::createJsonObject1: " + datastrinmg)
-                f = open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', 'w+')
-                f.write(datastrinmg)
-                f.close()
-                #self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''), strict=False)
+            data_file = open(self.src_path, encoding='utf-8')
+            datastrinmg = ""
+            for line in data_file:
+                datastrinmg = datastrinmg + line
+            self.data = json.loads(datastrinmg.encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''),strict=False)
             data_file.close()
-            with open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', encoding='utf-8') as data_file2:
-                self.logger.debug("SyncFile::createJsonObject2: " + data_file2.read())
-                self.data = json.loads(
-                    data_file2.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''),
-                    strict=False)
-            data_file2.close()
         except Exception as ex:  # parent of IOError, OSError *and* WindowsError where available
             self.logger.error("Error handling file: " + self.src_path)
             self.logger.error("Error handling file: " + str(ex))
