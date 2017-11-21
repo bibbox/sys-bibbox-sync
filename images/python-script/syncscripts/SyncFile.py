@@ -13,13 +13,17 @@ class SyncFile:
         self.logger = logging.getLogger("bibbox-sync")
 
         self.logger.debug("class SyncFile: event_type: " + event_type + ", is_directory: " + str(is_directory) + ", src_path: " + src_path )
-        
+
+        self.counter = 0
         self.event_type = event_type
         self.is_directory = is_directory
         self.src_path = src_path
         self.elasticBaseURL = os.environ['ELASTIC_BASE_URL']
         self.logger.debug('SyncFile - elasticBaseURL: ' + self.elasticBaseURL)
         self.headersEL = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+
+    def getCounter(self):
+        return self.counter
 
     def isFolder(self):
         return self.is_directory
@@ -29,7 +33,8 @@ class SyncFile:
         return file_info
 
     def updateIndex(self):
-        self.logger.debug("UpdateIndex: " + self.event_type + ' - ' + self.src_path)
+        self.counter = self.counter + 1
+        self.logger.debug("UpdateIndex [" + self.counter + "]:" + self.event_type + ' - ' + self.src_path)
         if self.is_directory == False:
             if(self.event_type == 'modified'):
                 return self.modifiIndex()
@@ -40,6 +45,17 @@ class SyncFile:
             if (self.event_type == 'deleted'):
                 return self.deleteIndex()
         return False
+
+    def createJsonObject(self):
+        self.logger.debug("SyncFile::createJsonObject: ")
+        try:
+            with open(self.src_path, encoding='utf-8') as data_file:
+                self.logger.debug("SyncFile::createJsonObject: " + data_file.read())
+                self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''), strict=False)
+        except Exception as ex:  # parent of IOError, OSError *and* WindowsError where available
+            self.logger.error("Error handling file: " + self.src_path)
+            self.logger.error("Error handling file: " + str(ex))
+        self.logger.debug("Read file done")
 
     def checkPrivacy(self, data):
         self.logger.debug("SyncFile::checkPrivacy")
@@ -54,14 +70,7 @@ class SyncFile:
     
     def modifiIndex(self):
         self.logger.debug("SyncFile::modifiIndex")
-        try:
-            with open(self.src_path) as data_file:
-                self.logger.debug("SyncFile::readJson: " + data_file.read())
-                self.data = json.load(data_file)
-        except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
-            self.logger.error("Error handling file: " + self.src_path)
-            self.logger.error("Error handling file: " + str(e))
-        self.logger.debug("Read file done")
+        self.createJsonObject()
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
             self.logger.debug("mod" + re.text)
@@ -72,18 +81,7 @@ class SyncFile:
 
     def creatIndex(self):
         self.logger.debug("SyncFile::creatIndex: " + self.src_path)
-        a='{  "privacy": {    "share": "yes"  },  "contact": {},  "configuration": {    "hypervisor": "not specified",    "status": "not specified",    "network": "not specified",    "availability": "not specified"  },  "context": {    "machine_id": "dev.bibbox.org",    "cpus": 4,    "memory": 40478736,    "storage": 13661741056  }}'
-        try:
-            with open(self.src_path, encoding='utf-8') as data_file:
-                self.logger.debug("SyncFile::readJson: " + data_file.read())
-                self.logger.debug("SyncFile::readJson: " + a)
-                self.data = json.loads(a)
-                self.logger.debug("S--------: " + data_file.read())
-                #self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore'))
-        except Exception as e:  # parent of IOError, OSError *and* WindowsError where available
-            self.logger.error("Error handling file: " + self.src_path)
-            self.logger.error("Error handling file: " + str(e))
-        self.logger.debug("Read file done")
+        self.createJsonObject()
         if self.checkPrivacy(self.data):
             re = requests.put(self.elasticBaseURL + self.getIdentifier(), data=json.dumps(self.data), headers=self.headersEL)
             self.logger.debug("mod" + re.text)
