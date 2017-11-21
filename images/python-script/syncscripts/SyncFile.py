@@ -34,7 +34,7 @@ class SyncFile:
 
     def updateIndex(self):
         self.counter = self.counter + 1
-        self.logger.debug("UpdateIndex [" + self.counter + "]:" + self.event_type + ' - ' + self.src_path)
+        self.logger.debug("UpdateIndex [" + str(self.counter) + "]:" + self.event_type + ' - ' + self.src_path)
         if self.is_directory == False:
             if(self.event_type == 'modified'):
                 return self.modifiIndex()
