@@ -50,9 +50,10 @@ class SyncFile:
         self.logger.debug("SyncFile::createJsonObject: ")
         try:
             with open(self.src_path, encoding='utf-8') as data_file:
-                self.logger.debug("SyncFile::createJsonObject1: " + data_file.read())
+                datastrinmg = data_file.read()
+                self.logger.debug("SyncFile::createJsonObject1: " + datastrinmg)
                 f = open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', 'w+')
-                f.write(data_file.read())
+                f.write(datastrinmg)
                 f.close()
                 #self.data = json.loads(data_file.read().encode("utf-8").decode("utf-8", 'ignore').replace('\r', '').replace('\n', ''), strict=False)
             with open('/opt/bibbox/sys-bibbox-sync/data/helloworld.txt', encoding='utf-8') as data_file2:
